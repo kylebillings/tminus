@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Fitter Happier Text</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+  html, body {
+    height: 100%;
+  }
+    body {
+      font-family: 'Avenir Next', sans-serif;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .2em;
+      line-height: 1.5;
+      padding: 0;
+      margin: 0 auto;
+      max-width: 76rem;
+      color: rgba(255,255,255,.8);
+      background-color: tomato;
+      background-color: #f40;
+      background-image: linear-gradient(#f40, #f37);
+    }
+    h1 { font-size: 3rem; font-weight: 600 }
+    p { font-size: 1.25rem }
+    a {
+      color: rgba(0,0,0,.6);
+      transition: color .1s ease-out;
+      text-decoration: none;
+      border-bottom: 2px solid;
+    }
+    a:hover { color: white }
+    pre {
+      font-family: 'Source Code Pro', monospace;
+      text-transform: none;
+      letter-spacing: 0;
+      padding-top: .25em;
+      padding-bottom: .25em;
+      overflow-x: scroll;
+      background-color: rgba(0,0,0,.2);
+    }
+    svg { max-height: 100% }
+    .mb1 { margin-bottom: 1rem }
+    .py2 { padding-top: 2rem; padding-bottom: 2rem; }
+    .xs-show { display: none }
+    @media (max-width: 40em) { .xs-show { display: block } }
+  </style>
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro:400" rel="stylesheet">
+</head>
+<body>
+
+  <header class="py2">
+    <div id="countdown" data-fitter-happier-text class="">LOADING</div>
+  </header>
+
+  <section class="py2">
+    <div data-fitter-happier-text class="">Until the Billings go to Palm Springs</div>
+  </section>
+
+  <script src="dist/fitter-happier-text.js"></script>
+  <script>
+  /**
+ * returns hours, minutes, seconds between two dates, ie. 25 hours in the future will return:
+ *
+ *    01 day
+ *    01 hour
+ *    00 minutes
+ * 
+ * not the total number of hours (25) left, or the total numer of minutes.
+ *
+ *
+ * General Usage
+ * countdown = new Countdown('February 29, 2012 5:15 PM');
+ * console.log(countdown);
+ */
+
+
+/**
+ * @param string datestring
+ * a string representing the countdown date, in the following format:
+ * Jan, 24, 2012 10:15 AM
+ */
+function Countdown(datestring) {
+  var remaining = {};
+  var until = Date.parse(datestring);
+  var from  = new Date();
+
+  // dates are in milliseconds so divide out and get minutes, rounded to nearest minute
+  this._total_minutes = Math.round(((until - from) / 1000) / 60); 
+
+  // only meant to return time until, not time past
+  if(this._total_minutes < 0) {
+    remaining.days    = 0;
+    remaining.hours   = 0;
+    remaining.minutes = 0;
+  }
+  else {
+    remaining.days    = this._daysRemaining();
+    remaining.hours   = this._hoursRemaining();
+    remaining.minutes = this._minutesRemaining();
+  }
+
+  return remaining;
+}
+Countdown.prototype._minutesRemaining = function() {
+  return this._format( (this._total_minutes % 1440) % 60  ); 
+};
+Countdown.prototype._hoursRemaining = function() {
+  return this._format( Math.floor((this._total_minutes % 1440) / 60) );
+};
+Countdown.prototype._daysRemaining = function() {
+  return this._format( Math.floor((this._total_minutes / 1440)) );
+};
+// 0 pads numbers less then 10
+Countdown.prototype._format = function(d) {
+  return (d < 10) ? '0' + d.toString() : d.toString();
+};
+
+countdown = new Countdown('March 3, 2016 5:15 PM');
+    console.log(countdown);
+document.getElementById("countdown").innerHTML = countdown.days + " Days";
+
+/**
+ * Date.parse Polyfill
+ * via https://gist.github.com/1053863
+ */
+Date.parse=Date.parse||function(a){a=a.split(/\W\D?/);return new Date(a[3],"anebarprayunulugepctovec".search(a[1])/2,a[2],a[4],a[5],a[6])}
+</script>
+  <script>
+
+</script>
+  <script>
+    var nodes = document.querySelectorAll('[data-fitter-happier-text]');
+    fitterHappierText(nodes, { baseline: 16 });
+  </script>
+  
+
+</body>
+</html>
