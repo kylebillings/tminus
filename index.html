@@ -119,7 +119,7 @@ Countdown.prototype._format = function(d) {
 
 countdown = new Countdown('March 3, 2016 5:15 PM');
     console.log(countdown);
-document.getElementById("countdown").innerHTML = countdown.days + " Days";
+document.getElementById("countdown").innerHTML = countdown.days + " Days" + " " + countdown.hours + " Hours";
 
 /**
  * Date.parse Polyfill
